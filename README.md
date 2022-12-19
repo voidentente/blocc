@@ -1,5 +1,12 @@
 # Blocc
 
+## Logging
+
+### ex `RUST_LOG=wgpu=error,bevy_render=info,bevy_ecs=trace bloccgame`
+### or `set RUST_LOG=wgpu=error,bevy_render=info,bevy_ecs=trace (CRLF) bloccgame.exe`
+
+### 
+
 ## TPS (Sided.SERVER)
 
 ### (Only Server runs world updates - Hollow internal server (?))

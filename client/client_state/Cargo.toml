@@ -1,5 +1,5 @@
 [package]
-name = "bloccgame"
+name = "client_state"
 version = "0.1.0"
 edition = "2021"
 authors = ["voidentente <sesyroc_0@paranoici.org>"]
@@ -10,8 +10,8 @@ version = "0.9.1"
 default-features = false
 features = [
     "bevy_asset",
-    "bevy_scene",
-    "bevy_gilrs", # Gamepad support
+    #"bevy_scene",
+    #"bevy_gilrs", # Gamepad support
     "bevy_winit",
     "animation",
     "x11",
@@ -19,14 +19,14 @@ features = [
     "bevy_render",
     "bevy_core_pipeline",
     "bevy_sprite",
-    "bevy_pbr",
+    #"bevy_pbr",
     #"bevy_gltf",
     "bevy_text",
     #"bevy_ui",
-    "wayland",
+    #"wayland",
     "subpixel_glyph_atlas",
-    "serialize",
-    "bevy_dynamic_plugin",
+    #"serialize",
+    #"bevy_dynamic_plugin",
     #"png",
     #"hdr",
     #"vorbis", 
@@ -46,12 +46,3 @@ features = [
     #"trace_chrome", # Tracing using the Chrome format
     #"wgpu_trace",   # WGPU/rendering tracing
 ]
-
-[dependencies.bevy_kira_audio]
-version = "0.13.0" # https://crates.io/crates/bevy_kira_audio
-
-[dependencies.bevy_egui]
-version = "0.18.0" # https://crates.io/crates/bevy_egui
-
-[dependencies.bevy_framepace]
-version = "0.9.1" # https://crates.io/crates/bevy_framepace

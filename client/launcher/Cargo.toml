@@ -1,0 +1,58 @@
+[package]
+name = "launcher"
+version = "0.1.0"
+edition = "2021"
+authors = ["voidentente <sesyroc_0@paranoici.org>"]
+repository = "https://github.com/voidentente/blocc"
+
+[dependencies.bevy]
+version = "0.9.1"
+default-features = false
+features = [
+    "bevy_asset",
+    #"bevy_scene",
+    #"bevy_gilrs", # Gamepad support
+    "bevy_winit",
+    "animation",
+    "x11",
+    #"filesystem_watcher",
+    "bevy_render",
+    "bevy_core_pipeline",
+    "bevy_sprite",
+    #"bevy_pbr",
+    #"bevy_gltf",
+    "bevy_text",
+    #"bevy_ui",
+    #"wayland",
+    "subpixel_glyph_atlas",
+    #"serialize",
+    #"bevy_dynamic_plugin",
+    #"png",
+    #"hdr",
+    #"vorbis", 
+    #"ktx2", # preferred format for GPU textures
+    #"dds",
+    #"jpeg",
+    #"bmp",
+    #"tga",
+    #"basis-universal",
+    #"zstd", # needed if using zstd in KTX2 files
+    #"flac",
+    #"mp3",
+    #"wav",
+    #"dynamic",      # Dynamic linking for faster compile-times
+    #"trace",        # Enable tracing for performance measurement
+    #"trace_tracy",  # Tracing using `tracy`
+    #"trace_chrome", # Tracing using the Chrome format
+    #"wgpu_trace",   # WGPU/rendering tracing
+]
+
+[dependencies.bevy_egui]
+version = "0.18.0" # https://crates.io/crates/bevy_egui
+
+[dependencies.egui]
+version = "0.20.1"
+
+## Internal
+[dependencies]
+client_state = { path = "../client_state" }

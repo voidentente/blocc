@@ -10,11 +10,10 @@ codegen-units = 1
 resolver = "2"
 
 members = [
-    "bloccgame",
-    "bloccserver",
-]
-
-default-members = [
-    "bloccgame",
-    "bloccserver",
+    "blocc_game",
+    "blocc_server",
+    "client/client_state",
+    "client/launcher",
+    "common/player_identity",
+    "common/bevy_rapid_qoi",
 ]

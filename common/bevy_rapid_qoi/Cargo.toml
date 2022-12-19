@@ -1,0 +1,15 @@
+[package]
+name = "bevy_rapid_qoi"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies.bevy]
+version = "0.9.1"
+default-features = false
+features = ["bevy_asset", "bevy_render"]
+
+[dependencies.rapid-qoi]
+version = "0.6.1"
+
+[dependencies.anyhow]
+version = "1.0.68"

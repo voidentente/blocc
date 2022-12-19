@@ -1,4 +1,4 @@
 #!/bin/bash
-cargo build -r
-mv ./target/debug/bloccgame* ./bloccgame/env/
-mv ./target/debug/bloccserver* ./bloccserver/env/
+cargo build --release
+mv ./target/debug/blocc_game?(.exe) ./blocc_game/env/
+mv ./target/debug/blocc_server?(.exe) ./blocc_server/env/
