@@ -1,0 +1,5 @@
+#!/bin/bash
+cargo build
+shopt -s extglob
+mv ./target/debug/bloccgame?(.exe) ./bloccgame/env/
+mv ./target/debug/bloccserver?(.exe) ./bloccserver/env/
