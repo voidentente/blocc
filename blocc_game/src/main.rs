@@ -4,6 +4,7 @@ use bevy::prelude::*;
 
 fn main() {
     App::new()
+        .insert_resource(Msaa { samples: 1 })
         .add_plugin(bevy::log::LogPlugin::default())
         .add_plugin(bevy::core::CorePlugin::default())
         .add_plugin(bevy::time::TimePlugin)
@@ -11,10 +12,21 @@ fn main() {
         .add_plugin(bevy::hierarchy::HierarchyPlugin)
         .add_plugin(bevy::diagnostic::DiagnosticsPlugin)
         .add_plugin(bevy::input::InputPlugin)
-        .add_plugin(bevy::window::WindowPlugin::default())
-        .add_plugin(bevy::asset::AssetPlugin {
-            watch_for_changes: true,
+        .add_plugin(bevy::window::WindowPlugin {
+            window: bevy::window::WindowDescriptor {
+                title: "blocc".to_string(),
+                width: 512.,
+                height: 512.,
+                resizable: false,
+                position: bevy::window::WindowPosition::Centered,
+                present_mode: bevy::window::PresentMode::AutoNoVsync,
+                ..Default::default()
+            },
             ..Default::default()
+        })
+        .add_plugin(bevy::asset::AssetPlugin {
+            asset_folder: "".to_string(),
+            watch_for_changes: true,
         })
         .add_plugin(bevy::scene::ScenePlugin)
         .add_plugin(bevy::winit::WinitPlugin)
@@ -29,6 +41,10 @@ fn main() {
         // Third party
         .add_plugin(bevy_rapid_qoi::QOIPlugin)
         .add_plugin(bevy_egui::EguiPlugin)
+        .add_plugin(style::StylePlugin)
+        .insert_resource(bevy_framepace::FramepaceSettings {
+            limiter: bevy_framepace::Limiter::from_framerate(30.0),
+        })
         .add_plugin(bevy_framepace::FramepacePlugin)
         // Internal
         .add_plugin(client_state::GameStatePlugin)

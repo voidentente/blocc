@@ -14,6 +14,9 @@ members = [
     "blocc_server",
     "client/client_state",
     "client/launcher",
+    "client/style",
+    "client/assets",
     "common/player_identity",
     "common/bevy_rapid_qoi",
+    "common/modapi",
 ]

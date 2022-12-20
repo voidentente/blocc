@@ -1,4 +1,5 @@
 #!/bin/bash
 cargo build --release
-mv ./target/debug/blocc_game?(.exe) ./blocc_game/env/
-mv ./target/debug/blocc_server?(.exe) ./blocc_server/env/
+shopt -s extglob
+mv ./target/release/blocc_game?(.exe) ./blocc_game/env/
+mv ./target/release/blocc_server?(.exe) ./blocc_server/env/

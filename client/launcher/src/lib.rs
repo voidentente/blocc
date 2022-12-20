@@ -10,8 +10,20 @@ impl Plugin for LauncherPlugin {
     }
 }
 
-fn draw(mut ctx: ResMut<bevy_egui::EguiContext>) {
-    egui::Area::new("launcher_title_area").show(ctx.ctx_mut(), |ui| {
-        ui.label("Blocc");
-    });
+fn draw(windows: Res<Windows>, mut ctx: ResMut<bevy_egui::EguiContext>) {
+    let win = windows.primary();
+    let height = win.height();
+    let width = win.width();
+
+    egui::Area::new("launcher_startbutton_area")
+        .fixed_pos(egui::pos2(width * 0.5 - 64., height - 128.))
+        .show(ctx.ctx_mut(), |ui| {
+            let button_text = egui::RichText::new("Start");
+
+            let button = egui::Button::new(button_text).min_size(egui::vec2(128., 64.));
+
+            if ui.add(button).clicked() {
+                info!("Starting...");
+            }
+        });
 }

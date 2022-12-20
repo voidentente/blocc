@@ -1,77 +1,81 @@
 use bevy::prelude::*;
+use bevy_common_assets::ron::RonAssetPlugin;
 use ed25519_dalek::Keypair;
 use rand::rngs::OsRng;
+use ron::ser::{to_string_pretty, PrettyConfig};
+use serde::{Deserialize, Serialize};
 use std::path::Path;
-use toml::map::Map;
-use toml::Value;
 
-pub const PATH: &str = "./identity.toml";
+pub const PATH: &str = "player.id.ron";
 
 pub struct PlayerIdentityPlugin;
 
 impl Plugin for PlayerIdentityPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<PlayerIdentities>();
+        app.add_plugin(RonAssetPlugin::<PlayerIdentity>::new(&["id.ron"]));
+        app.add_startup_system(read);
+        app.add_system(log_event);
     }
 }
 
-#[derive(Debug, Resource)]
-pub struct PlayerIdentities(Vec<(String, Keypair)>);
+fn log_event(
+    mut ev_asset: EventReader<AssetEvent<PlayerIdentity>>,
+    assets: Res<Assets<PlayerIdentity>>,
+) {
+    for ev in ev_asset.iter() {
+        match ev {
+            AssetEvent::Created { handle } => {
+                info!("player.id.ron loaded");
 
-impl Default for PlayerIdentities {
-    fn default() -> Self {
-        Self::read()
+                let player_identity = assets.get(handle).unwrap();
+
+                for (name, _) in player_identity.0.iter() {
+                    info!("...{}", name);
+                }
+            }
+            AssetEvent::Modified { handle } => {
+                info!("player.id.ron changed");
+
+                let player_identity = assets.get(handle).unwrap();
+
+                for (name, _) in player_identity.0.iter() {
+                    info!("...{}", name);
+                }
+            }
+            AssetEvent::Removed { .. } => {
+                info!("player.id.ron removed");
+            }
+        }
     }
 }
 
-impl PlayerIdentities {
-    pub fn new<T: Into<String>>(&mut self, name: T) {
+pub fn read(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let path = Path::new(PATH);
+
+    if !path.exists() {
+        PlayerIdentity(Vec::new()).write();
+    }
+
+    commands.insert_resource(PlayerIdentityHandle(asset_server.load(path)));
+}
+
+#[derive(Serialize, Deserialize, bevy::reflect::TypeUuid)]
+#[uuid = "995f655c-ec63-4c41-bca1-2be2df3d660d"]
+pub struct PlayerIdentity(Vec<(String, Keypair)>);
+
+impl PlayerIdentity {
+    pub fn write(&self) {
+        let config = PrettyConfig::default();
+
+        let contents = to_string_pretty(self, config).unwrap();
+
+        std::fs::write(PATH, contents).unwrap();
+    }
+
+    pub fn add_ident<T: Into<String>>(&mut self, name: T) {
         self.0.push((name.into(), Keypair::generate(&mut OsRng {})));
     }
-
-    pub fn read() -> Self {
-        let path = Path::new(PATH);
-
-        if path.exists() {
-            let read = std::fs::read_to_string(path).unwrap();
-
-            let mut vec = Vec::new();
-
-            if let Value::Table(table) = toml::from_str(&read).unwrap() {
-                for (name, key) in table {
-                    if let Value::String(key) = key {
-                        vec.push((
-                            name,
-                            Keypair::from_bytes(&base64::decode(key).unwrap()).unwrap(),
-                        ));
-                    } else {
-                        panic!("PlayerIdentities: Invalid Format - Not String")
-                    }
-                }
-
-                Self(vec)
-            } else {
-                panic!("PlayerIdentities: Invalid Format - Not Map")
-            }
-        } else {
-            std::fs::File::create(path).unwrap();
-
-            Self(Vec::new())
-        }
-    }
-
-    pub fn write(&self) {
-        let mut map = Map::new();
-
-        for (name, key) in &self.0 {
-            map.insert(
-                name.to_owned(),
-                Value::String(base64::encode(key.to_bytes())),
-            );
-        }
-
-        let val = Value::Table(map);
-
-        std::fs::write(PATH, toml::to_string_pretty(&val).unwrap()).unwrap();
-    }
 }
+
+#[derive(Resource)]
+pub struct PlayerIdentityHandle(Handle<PlayerIdentity>);
