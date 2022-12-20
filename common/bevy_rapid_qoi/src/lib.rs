@@ -1,5 +1,4 @@
-//! forked from https://github.com/celerysaltgames/bevy_rapid_qoi
-//! to work with bevy 0.9.1
+//! Forked from bevy_rapid_qoi, which refuses to update to Bevy 9.
 
 use anyhow::anyhow;
 

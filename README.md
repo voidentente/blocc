@@ -119,10 +119,6 @@ OpenGL should work as a fallback, for systems that do not support other APIs.
 
 #### NAIA (https://github.com/naia-lib/naia)
 
-#### SPICY (https://github.com/CabbitStudios/bevy_spicy_networking)
-
-#### GGRS/GGPO (https://github.com/gschup/bevy_ggrs)
-
 ##### Architecture (https://www.gabrielgambetta.com/client-server-game-architecture.html)
 
 ###### Predicion & Rollback: Wait until possible rollback before applying noticable changes (Analysis: Why Rollback Netcode Is Better (https://youtu.be/0NLe4IpdS1w))
