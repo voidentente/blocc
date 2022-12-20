@@ -1,3 +1,5 @@
+pub const ICON: &'static [u8] = include_bytes!("../assets/icon.qoi");
+
 pub const FONT_HEAD: &'static [u8] = include_bytes!("../assets/fonts/DadasDreams.ttf");
 
 pub const FONT_BODY: &'static [u8] = include_bytes!("../assets/fonts/UASQUARE.ttf");

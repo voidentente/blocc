@@ -12,6 +12,7 @@ resolver = "2"
 members = [
     "blocc_game",
     "blocc_server",
+    "client/icon",
     "client/client_state",
     "client/launcher",
     "client/style",

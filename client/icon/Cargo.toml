@@ -1,0 +1,23 @@
+[package]
+name = "icon"
+version = "0.1.0"
+edition = "2021"
+authors = ["voidentente <sesyroc_0@paranoici.org>"]
+repository = "https://github.com/voidentente/blocc"
+
+[dependencies.bevy]
+version = "0.9.1"
+default-features = false
+
+[dependencies.winit]
+version = "0.27.5"
+
+[dependencies.image]
+version = "0.24.5"
+
+[dependencies.rapid-qoi]
+version = "0.6.1"
+
+# Internal
+[dependencies]
+assets = { path = "../assets" }
