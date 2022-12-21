@@ -47,6 +47,8 @@ fn main() {
         })
         .add_plugin(bevy_framepace::FramepacePlugin)
         // Internal
+        // The embedded asset server is currently not used
+        //.add_plugin(embedded_assets::EmbeddedAssetServerPlugin)
         .add_plugin(icon::IconPlugin)
         .add_plugin(client_state::GameStatePlugin)
         .add_plugin(player_identity::PlayerIdentityPlugin)

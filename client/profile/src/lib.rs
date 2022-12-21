@@ -5,7 +5,7 @@ pub struct ProfilePlugin;
 
 impl Plugin for ProfilePlugin {
     fn build(&self, app: &mut App) {
-        app.add_system_set(SystemSet::on_update(GameState::Launcher).with_system(Profiles::update));
+        app.add_system_set(SystemSet::on_enter(GameState::Launcher).with_system(Profiles::update));
         app.init_resource::<Profiles>();
         app.init_resource::<ProfileSelection>();
     }
@@ -22,27 +22,21 @@ impl Default for Profiles {
 
 impl Profiles {
     fn update(mut commands: Commands) {
-        match std::fs::read_dir("profiles") {
-            Ok(dir) => {
-                let mut vec = Vec::new();
+        if let Ok(dir) = std::fs::read_dir("profiles") {
+            let mut vec = Vec::new();
 
-                for entry in dir.flatten() {
-                    if entry.metadata().unwrap().is_dir() {
-                        vec.push(entry.file_name().into_string().unwrap());
-                    }
+            for entry in dir.flatten() {
+                if entry.metadata().unwrap().is_dir() {
+                    vec.push(entry.file_name().into_string().unwrap());
                 }
-
-                commands.insert_resource(Self(vec));
             }
 
-            Err(e) => {
-                warn!("{}", e);
-            }
+            commands.insert_resource(Self(vec));
         }
     }
 }
 
-#[derive(Debug, Resource)]
+#[derive(Resource)]
 pub struct ProfileSelection(pub Option<usize>);
 
 impl Default for ProfileSelection {

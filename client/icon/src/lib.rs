@@ -17,7 +17,7 @@ fn set_window_icon(windows: NonSend<WinitWindows>) {
     let primary = windows.get_window(WindowId::primary()).unwrap();
 
     let icon = {
-        let (header, rgba) = Qoi::decode_alloc(assets::ICON).unwrap();
+        let (header, rgba) = Qoi::decode_alloc(embedded_assets::ICON).unwrap();
 
         Icon::from_rgba(rgba, header.width, header.height).unwrap()
     };

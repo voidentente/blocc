@@ -17,4 +17,4 @@ version = "0.18.0"
 
 # Internal
 [dependencies]
-assets = { path = "../assets" }
+embedded_assets = { path = "../embedded_assets" }

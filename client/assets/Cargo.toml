@@ -1,6 +1,0 @@
-[package]
-name = "assets"
-version = "0.1.0"
-edition = "2021"
-authors = ["voidentente <sesyroc_0@paranoici.org>"]
-repository = "https://github.com/voidentente/blocc"

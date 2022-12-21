@@ -172,10 +172,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "assets"
-version = "0.1.0"
-
-[[package]]
 name = "async-channel"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -978,6 +974,7 @@ dependencies = [
  "bevy_kira_audio",
  "bevy_rapid_qoi",
  "client_state",
+ "embedded_assets",
  "icon",
  "launcher",
  "player_identity",
@@ -1566,6 +1563,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "embedded_assets"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+]
+
+[[package]]
 name = "encase"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2150,8 +2154,8 @@ checksum = "dfa686283ad6dd069f105e5ab091b04c62850d3e4cf5d67debad1933f55023df"
 name = "icon"
 version = "0.1.0"
 dependencies = [
- "assets",
  "bevy",
+ "embedded_assets",
  "rapid-qoi",
  "winit",
 ]
@@ -2370,12 +2374,12 @@ dependencies = [
 name = "launcher"
 version = "0.1.0"
 dependencies = [
- "assets",
  "bevy",
  "bevy_egui",
  "bevy_framepace",
  "client_state",
  "egui",
+ "embedded_assets",
  "player_identity",
  "profile",
  "rapid-qoi",
@@ -3564,10 +3568,10 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 name = "style"
 version = "0.1.0"
 dependencies = [
- "assets",
  "bevy",
  "bevy_egui",
  "egui",
+ "embedded_assets",
 ]
 
 [[package]]

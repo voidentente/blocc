@@ -24,6 +24,6 @@ version = "0.6.1"
 ## Internal
 [dependencies]
 client_state = { path = "../client_state" }
-assets = { path = "../assets" }
+embedded_assets = { path = "../embedded_assets" }
 player_identity = { path = "../../common/player_identity" }
 profile = { path = "../profile" }

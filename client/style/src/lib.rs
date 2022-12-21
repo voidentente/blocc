@@ -46,20 +46,20 @@ fn style(mut ctx: ResMut<bevy_egui::EguiContext>) {
 fn fonts(mut ctx: ResMut<bevy_egui::EguiContext>) {
     let font_data = [
         (
-            "blocc_dada".to_string(),
-            FontData::from_static(assets::FONT_DADA),
+            "blocc_dreams".to_string(),
+            FontData::from_static(embedded_assets::FONT_DREAMS),
         ),
         (
-            "blocc_sqre".to_string(),
-            FontData::from_static(assets::FONT_SQRE),
+            "blocc_square".to_string(),
+            FontData::from_static(embedded_assets::FONT_SQUARE),
         ),
         (
-            "blocc_kong".to_string(),
-            FontData::from_static(assets::FONT_KONG),
+            "blocc_kongtext".to_string(),
+            FontData::from_static(embedded_assets::FONT_KONGTEXT),
         ),
         (
-            "blocc_novm".to_string(),
-            FontData::from_static(assets::FONT_NOVM),
+            "blocc_november".to_string(),
+            FontData::from_static(embedded_assets::FONT_NOVEMBER),
         ),
     ]
     .into();
@@ -67,11 +67,11 @@ fn fonts(mut ctx: ResMut<bevy_egui::EguiContext>) {
     let families = [
         (
             FontFamily::Proportional,
-            vec!["blocc_dada".to_string(), "blocc_sqre".to_string()],
+            vec!["blocc_dreams".to_string(), "blocc_square".to_string()],
         ),
         (
             FontFamily::Monospace,
-            vec!["blocc_kong".to_string(), "blocc_novm".to_string()],
+            vec!["blocc_kongtext".to_string(), "blocc_november".to_string()],
         ),
     ]
     .into();

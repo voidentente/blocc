@@ -53,7 +53,7 @@ fn setup(mut commands: Commands, mut ctx: ResMut<bevy_egui::EguiContext>) {
     let menu = LauncherMenu::MainMenu;
 
     let background = {
-        let (header, rgba) = Qoi::decode_alloc(assets::LAUNCHER_BACKGROUND).unwrap();
+        let (header, rgba) = Qoi::decode_alloc(embedded_assets::LAUNCHER_BACKGROUND).unwrap();
 
         let image = egui::ColorImage::from_rgba_unmultiplied(
             [header.width as _, header.height as _],
@@ -185,7 +185,7 @@ fn draw(
                         let button = egui::Button::new(button_text).frame(false);
 
                         if ui.add(button).clicked() {
-                            info!("Starting...");
+                            info!("Unimplemented.");
                         }
                     });
                 });

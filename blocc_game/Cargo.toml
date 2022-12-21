@@ -63,3 +63,4 @@ bevy_rapid_qoi = { path = "../common/bevy_rapid_qoi" }
 style = { path = "../client/style" }
 icon = { path = "../client/icon" }
 profile = { path = "../client/profile" }
+embedded_assets = { path = "../client/embedded_assets" }
