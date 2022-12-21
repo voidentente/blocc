@@ -1,73 +1,80 @@
 use bevy::prelude::*;
+use egui::{FontData, FontFamily, FontId, Style, TextStyle};
 
 pub struct StylePlugin;
 
 impl Plugin for StylePlugin {
     fn build(&self, app: &mut App) {
         app.add_startup_system(fonts);
+        app.add_startup_system(style);
     }
 }
 
+fn style(mut ctx: ResMut<bevy_egui::EguiContext>) {
+    let text_styles = [
+        (
+            TextStyle::Heading,
+            FontId::new(24.00000, FontFamily::Proportional),
+        ),
+        (
+            TextStyle::Body,
+            FontId::new(12.00000, FontFamily::Monospace),
+        ),
+        (
+            TextStyle::Button,
+            FontId::new(12.00000, FontFamily::Monospace),
+        ),
+        (
+            TextStyle::Monospace,
+            FontId::new(12.00000, FontFamily::Monospace),
+        ),
+        (
+            TextStyle::Small,
+            FontId::new(06.00000, FontFamily::Monospace),
+        ),
+    ]
+    .into();
+
+    let style = Style {
+        text_styles,
+        ..Default::default()
+    };
+
+    ctx.ctx_mut().set_style(style);
+}
+
 fn fonts(mut ctx: ResMut<bevy_egui::EguiContext>) {
-    let mut font_data = std::collections::BTreeMap::new();
-    let mut families = std::collections::BTreeMap::new();
+    let font_data = [
+        (
+            "blocc_dada".to_string(),
+            FontData::from_static(assets::FONT_DADA),
+        ),
+        (
+            "blocc_sqre".to_string(),
+            FontData::from_static(assets::FONT_SQRE),
+        ),
+        (
+            "blocc_kong".to_string(),
+            FontData::from_static(assets::FONT_KONG),
+        ),
+        (
+            "blocc_novm".to_string(),
+            FontData::from_static(assets::FONT_NOVM),
+        ),
+    ]
+    .into();
 
-    {
-        {
-            let data = egui::FontData {
-                font: std::borrow::Cow::Borrowed(assets::FONT_HEAD),
-                index: 0,
-                tweak: egui::FontTweak::default(),
-            };
-            font_data.insert("blocc_head".to_string(), data);
-        }
-
-        {
-            let data = egui::FontData {
-                font: std::borrow::Cow::Borrowed(assets::FONT_BODY),
-                index: 0,
-                tweak: egui::FontTweak::default(),
-            };
-            font_data.insert("blocc_body".to_string(), data);
-        }
-
-        let font_family = egui::FontFamily::Proportional;
-
-        families.insert(
-            font_family,
-            vec!["blocc_head".to_string(), "blocc_body".to_string()],
-        );
-    }
-
-    {
-        {
-            let data = egui::FontData {
-                font: std::borrow::Cow::Borrowed(assets::FONT_MONO_KONGT),
-                index: 0,
-                tweak: egui::FontTweak::default(),
-            };
-            font_data.insert("blocc_mono_kongt".to_string(), data);
-        }
-
-        {
-            let data = egui::FontData {
-                font: std::borrow::Cow::Borrowed(assets::FONT_MONO_NOVEM),
-                index: 0,
-                tweak: egui::FontTweak::default(),
-            };
-            font_data.insert("blocc_mono_novem".to_string(), data);
-        }
-
-        let font_family = egui::FontFamily::Monospace;
-
-        families.insert(
-            font_family,
-            vec![
-                "blocc_mono_kongt".to_string(),
-                "blocc_mono_novem".to_string(),
-            ],
-        );
-    }
+    let families = [
+        (
+            FontFamily::Proportional,
+            vec!["blocc_dada".to_string(), "blocc_sqre".to_string()],
+        ),
+        (
+            FontFamily::Monospace,
+            vec!["blocc_kong".to_string(), "blocc_novm".to_string()],
+        ),
+    ]
+    .into();
 
     let font_definitions = egui::FontDefinitions {
         font_data,

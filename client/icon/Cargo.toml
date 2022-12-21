@@ -12,9 +12,6 @@ default-features = false
 [dependencies.winit]
 version = "0.27.5"
 
-[dependencies.image]
-version = "0.24.5"
-
 [dependencies.rapid-qoi]
 version = "0.6.1"
 

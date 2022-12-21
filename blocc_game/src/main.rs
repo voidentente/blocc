@@ -14,7 +14,7 @@ fn main() {
         .add_plugin(bevy::input::InputPlugin)
         .add_plugin(bevy::window::WindowPlugin {
             window: bevy::window::WindowDescriptor {
-                title: "blocc".to_string(),
+                title: "Blocc Launcher".to_string(),
                 width: 512.,
                 height: 512.,
                 resizable: false,
@@ -47,6 +47,7 @@ fn main() {
         })
         .add_plugin(bevy_framepace::FramepacePlugin)
         // Internal
+        .add_plugin(icon::IconPlugin)
         .add_plugin(client_state::GameStatePlugin)
         .add_plugin(player_identity::PlayerIdentityPlugin)
         .add_plugin(launcher::LauncherPlugin)
