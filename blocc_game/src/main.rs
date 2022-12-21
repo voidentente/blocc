@@ -43,7 +43,7 @@ fn main() {
         .add_plugin(bevy_egui::EguiPlugin)
         .add_plugin(style::StylePlugin)
         .insert_resource(bevy_framepace::FramepaceSettings {
-            limiter: bevy_framepace::Limiter::from_framerate(30.0),
+            limiter: bevy_framepace::Limiter::from_framerate(60.0),
         })
         .add_plugin(bevy_framepace::FramepacePlugin)
         // Internal

@@ -10,9 +10,11 @@ pub const PATH: &str = "player.id.ron";
 
 pub struct PlayerIdentityPlugin;
 
+/// Servers do not need to add this plugin.
 impl Plugin for PlayerIdentityPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugin(RonAssetPlugin::<PlayerIdentities>::new(&["id.ron"]));
+        app.init_resource::<PlayerIdentitySelection>();
         app.add_startup_system(read);
     }
 }
@@ -47,3 +49,6 @@ impl PlayerIdentities {
 
 #[derive(Resource)]
 pub struct PlayerIdentitiesHandle(pub Handle<PlayerIdentities>);
+
+#[derive(Resource, Default)]
+pub struct PlayerIdentitySelection(pub Option<usize>);

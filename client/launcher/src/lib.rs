@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use client_state::GameState;
-use player_identity::{PlayerIdentities, PlayerIdentitiesHandle};
+use player_identity::{PlayerIdentities, PlayerIdentitiesHandle, PlayerIdentitySelection};
 use rapid_qoi::Qoi;
 
 pub struct LauncherPlugin;
@@ -22,14 +22,14 @@ impl Plugin for LauncherPlugin {
 fn window(mut commands: Commands, mut windows: ResMut<Windows>) {
     let window = windows.primary_mut();
 
-    window.set_title("Blocc Launcher".to_string());
+    window.set_title("launcher".to_string());
     window.set_resizable(false);
     window.set_resolution(512., 512.);
     window.center_window(bevy::window::MonitorSelection::Current);
     window.set_present_mode(bevy::window::PresentMode::AutoNoVsync);
 
     commands.insert_resource(bevy_framepace::FramepaceSettings {
-        limiter: bevy_framepace::Limiter::from_framerate(30.0),
+        limiter: bevy_framepace::Limiter::from_framerate(60.0),
     });
 }
 
@@ -78,8 +78,9 @@ fn setup(mut commands: Commands, mut ctx: ResMut<bevy_egui::EguiContext>) {
 fn draw(
     mut ctx: ResMut<bevy_egui::EguiContext>,
     mut state: ResMut<LauncherState>,
-    handle: Res<PlayerIdentitiesHandle>,
-    mut assets: ResMut<Assets<PlayerIdentities>>,
+    identities_handle: Res<PlayerIdentitiesHandle>,
+    mut identities_assets: ResMut<Assets<PlayerIdentities>>,
+    mut identity_selection: ResMut<PlayerIdentitySelection>,
 ) {
     egui::Area::new("launcher_background_area")
         .order(egui::Order::Background)
@@ -115,23 +116,35 @@ fn draw(
                                 let scroll_area =
                                     egui::ScrollArea::vertical().auto_shrink([false; 2]);
 
-                                if ui.button("Identities").clicked() {
+                                let button = egui::Button::new("Identities").frame(false);
+
+                                if ui.add(button).clicked() {
                                     state.menu = LauncherMenu::ManageIdentities;
                                 }
 
                                 ui.separator();
 
                                 scroll_area.show(ui, |ui| {
-                                    if let Some(identities) = assets.get_mut(&handle.0) {
-                                        for (name, _) in identities.0.iter() {
-                                            let _ = ui.selectable_label(false, name);
+                                    if let Some(identities) =
+                                        identities_assets.get_mut(&identities_handle.0)
+                                    {
+                                        for i in 0..identities.0.len() {
+                                            let (name, _) = &identities.0[i];
+                                            let name = name.to_owned();
+                                            let selection =
+                                                identity_selection.0.unwrap_or(usize::MAX);
+                                            if ui.selectable_label(selection == i, name).clicked() {
+                                                identity_selection.0 = Some(i);
+                                            }
                                         }
                                     }
                                 });
                             });
 
                             ui.with_layout(egui::Layout::top_down(egui::Align::LEFT), |ui| {
-                                if ui.button("Profiles").clicked() {
+                                let button = egui::Button::new("Profiles").frame(false);
+
+                                if ui.add(button).clicked() {
                                     info!("Unimplemented");
                                 }
 
@@ -159,14 +172,14 @@ fn draw(
             egui::Area::new("launcher_manageidentities_area")
                 .anchor(egui::Align2::LEFT_TOP, egui::vec2(0., 192.))
                 .show(ctx.ctx_mut(), |ui| {
-                    if let Some(identities) = assets.get_mut(&handle.0) {
-                        egui::Grid::new("launcher_mainmenu_grid")
+                    if let Some(identities) = identities_assets.get_mut(&identities_handle.0) {
+                        egui::Grid::new("launcher_manageidentities_grid")
                             .num_columns(2)
                             .max_col_width(256.)
                             .min_col_width(256.)
                             .min_row_height(256.)
                             .show(ui, |ui| {
-                                ui.with_layout(egui::Layout::bottom_up(egui::Align::RIGHT), |ui| {
+                                ui.with_layout(egui::Layout::top_down(egui::Align::RIGHT), |ui| {
                                     let scroll_area =
                                         egui::ScrollArea::vertical().auto_shrink([false; 2]);
 
@@ -219,7 +232,7 @@ fn draw(
                                     ui.separator();
 
                                     ui.horizontal(|ui| {
-                                        if ui.button("Add").clicked() {
+                                        if ui.button("+").clicked() {
                                             identities
                                                 .add_identity(state.identity_textedit.clone());
                                             state.identity_status_message = egui::RichText::new(
