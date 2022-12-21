@@ -1,0 +1,14 @@
+[package]
+name = "profile"
+version = "0.1.0"
+edition = "2021"
+authors = ["voidentente <sesyroc_0@paranoici.org>"]
+repository = "https://github.com/voidentente/blocc"
+
+[dependencies.bevy]
+version = "0.9.1"
+default-features = false
+
+# Internal
+[dependencies]
+client_state = { path = "../client_state" }

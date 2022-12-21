@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use client_state::GameState;
 use player_identity::{PlayerIdentities, PlayerIdentitiesHandle, PlayerIdentitySelection};
+use profile::{ProfileSelection, Profiles};
 use rapid_qoi::Qoi;
 
 pub struct LauncherPlugin;
@@ -81,6 +82,8 @@ fn draw(
     identities_handle: Res<PlayerIdentitiesHandle>,
     mut identities_assets: ResMut<Assets<PlayerIdentities>>,
     mut identity_selection: ResMut<PlayerIdentitySelection>,
+    profiles: Res<Profiles>,
+    mut profile_selection: ResMut<ProfileSelection>,
 ) {
     egui::Area::new("launcher_background_area")
         .order(egui::Order::Background)
@@ -113,9 +116,6 @@ fn draw(
                         .min_row_height(256.)
                         .show(ui, |ui| {
                             ui.with_layout(egui::Layout::top_down(egui::Align::RIGHT), |ui| {
-                                let scroll_area =
-                                    egui::ScrollArea::vertical().auto_shrink([false; 2]);
-
                                 let button = egui::Button::new("Identities").frame(false);
 
                                 if ui.add(button).clicked() {
@@ -124,20 +124,28 @@ fn draw(
 
                                 ui.separator();
 
-                                scroll_area.show(ui, |ui| {
-                                    if let Some(identities) =
-                                        identities_assets.get_mut(&identities_handle.0)
-                                    {
-                                        for i in 0..identities.0.len() {
-                                            let (name, _) = &identities.0[i];
-                                            let name = name.to_owned();
-                                            let selection =
-                                                identity_selection.0.unwrap_or(usize::MAX);
-                                            if ui.selectable_label(selection == i, name).clicked() {
-                                                identity_selection.0 = Some(i);
+                                ui.push_id("launcher_identityscrollarea", |ui| {
+                                    let scroll_area =
+                                        egui::ScrollArea::vertical().auto_shrink([false; 2]);
+
+                                    scroll_area.show(ui, |ui| {
+                                        if let Some(identities) =
+                                            identities_assets.get_mut(&identities_handle.0)
+                                        {
+                                            for i in 0..identities.0.len() {
+                                                let (name, _) = &identities.0[i];
+                                                let name = name.to_owned();
+                                                let selection =
+                                                    identity_selection.0.unwrap_or(usize::MAX);
+                                                if ui
+                                                    .selectable_label(selection == i, name)
+                                                    .clicked()
+                                                {
+                                                    identity_selection.0 = Some(i);
+                                                }
                                             }
                                         }
-                                    }
+                                    });
                                 });
                             });
 
@@ -145,10 +153,25 @@ fn draw(
                                 let button = egui::Button::new("Profiles").frame(false);
 
                                 if ui.add(button).clicked() {
-                                    info!("Unimplemented");
+                                    info!("Unimplemented.");
                                 }
 
                                 ui.separator();
+
+                                ui.push_id("launcher_profilescrollarea", |ui| {
+                                    let scroll_area =
+                                        egui::ScrollArea::vertical().auto_shrink([false; 2]);
+
+                                    scroll_area.show(ui, |ui| {
+                                        for (i, name) in profiles.0.iter().enumerate() {
+                                            let selection =
+                                                profile_selection.0.unwrap_or(usize::MAX);
+                                            if ui.selectable_label(selection == i, name).clicked() {
+                                                profile_selection.0 = Some(i);
+                                            }
+                                        }
+                                    });
+                                });
                             });
                         });
                 });

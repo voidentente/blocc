@@ -26,3 +26,4 @@ version = "0.6.1"
 client_state = { path = "../client_state" }
 assets = { path = "../assets" }
 player_identity = { path = "../../common/player_identity" }
+profile = { path = "../profile" }

@@ -981,6 +981,7 @@ dependencies = [
  "icon",
  "launcher",
  "player_identity",
+ "profile",
  "style",
 ]
 
@@ -2376,6 +2377,7 @@ dependencies = [
  "client_state",
  "egui",
  "player_identity",
+ "profile",
  "rapid-qoi",
 ]
 
@@ -3064,6 +3066,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57a8eca9f9c4ffde41714334dee777596264c7825420f521abc92b5b5deb63a5"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "profile"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "client_state",
 ]
 
 [[package]]

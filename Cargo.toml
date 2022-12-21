@@ -17,6 +17,7 @@ members = [
     "client/launcher",
     "client/style",
     "client/assets",
+    "client/profile",
     "common/player_identity",
     "common/bevy_rapid_qoi",
     "common/modapi",

@@ -50,6 +50,7 @@ fn main() {
         .add_plugin(icon::IconPlugin)
         .add_plugin(client_state::GameStatePlugin)
         .add_plugin(player_identity::PlayerIdentityPlugin)
+        .add_plugin(profile::ProfilePlugin)
         .add_plugin(launcher::LauncherPlugin)
         //
         .run();
