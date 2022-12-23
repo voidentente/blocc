@@ -38,7 +38,6 @@ fn main() {
         .add_plugin(bevy::sprite::SpritePlugin)
         .add_plugin(bevy::text::TextPlugin)
         .add_plugin(bevy::pbr::PbrPlugin)
-        .add_plugin(bevy::gilrs::GilrsPlugin)
         .add_plugin(bevy::animation::AnimationPlugin::default())
         // Third party
         .add_plugin(bevy_rapid_qoi::QOIPlugin)

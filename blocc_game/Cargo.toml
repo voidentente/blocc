@@ -21,7 +21,7 @@ default-features = false
 features = [
     "bevy_asset",
     "bevy_scene",
-    "bevy_gilrs",
+    #"bevy_gilrs",
     "bevy_winit",
     "animation",
     "x11",
