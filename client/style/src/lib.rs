@@ -35,8 +35,14 @@ fn style(mut ctx: ResMut<bevy_egui::EguiContext>) {
     ]
     .into();
 
+    let visuals = egui::style::Visuals {
+        hyperlink_color: egui::Color32::GOLD,
+        ..Default::default()
+    };
+
     let style = Style {
         text_styles,
+        visuals,
         ..Default::default()
     };
 
@@ -46,19 +52,19 @@ fn style(mut ctx: ResMut<bevy_egui::EguiContext>) {
 fn fonts(mut ctx: ResMut<bevy_egui::EguiContext>) {
     let font_data = [
         (
-            "blocc_dreams".to_string(),
+            "dreams".to_string(),
             FontData::from_static(embedded_assets::FONT_DREAMS),
         ),
         (
-            "blocc_square".to_string(),
+            "square".to_string(),
             FontData::from_static(embedded_assets::FONT_SQUARE),
         ),
         (
-            "blocc_kongtext".to_string(),
+            "kongtext".to_string(),
             FontData::from_static(embedded_assets::FONT_KONGTEXT),
         ),
         (
-            "blocc_november".to_string(),
+            "november".to_string(),
             FontData::from_static(embedded_assets::FONT_NOVEMBER),
         ),
     ]
@@ -67,11 +73,27 @@ fn fonts(mut ctx: ResMut<bevy_egui::EguiContext>) {
     let families = [
         (
             FontFamily::Proportional,
-            vec!["blocc_dreams".to_string(), "blocc_square".to_string()],
+            vec!["dreams".to_string(), "square".to_string()],
         ),
         (
             FontFamily::Monospace,
-            vec!["blocc_kongtext".to_string(), "blocc_november".to_string()],
+            vec!["kongtext".to_string(), "november".to_string()],
+        ),
+        (
+            FontFamily::Name("dreams".into()),
+            vec!["dreams".to_string()],
+        ),
+        (
+            FontFamily::Name("square".into()),
+            vec!["square".to_string()],
+        ),
+        (
+            FontFamily::Name("kongtext".into()),
+            vec!["kongtext".to_string()],
+        ),
+        (
+            FontFamily::Name("november".into()),
+            vec!["november".to_string()],
         ),
     ]
     .into();

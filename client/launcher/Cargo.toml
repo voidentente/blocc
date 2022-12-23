@@ -27,3 +27,4 @@ client_state = { path = "../client_state" }
 embedded_assets = { path = "../embedded_assets" }
 player_identity = { path = "../../common/player_identity" }
 profile = { path = "../profile" }
+text_asset = { path = "../../common/text_asset" }

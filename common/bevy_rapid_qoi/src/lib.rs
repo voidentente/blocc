@@ -1,4 +1,4 @@
-//! Forked from bevy_rapid_qoi, which refuses to update to Bevy 9.
+//! Forked from bevy_rapid_qoi (https://github.com/celerysaltgames/bevy_rapid_qoi)
 
 use anyhow::anyhow;
 

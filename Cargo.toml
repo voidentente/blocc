@@ -21,4 +21,5 @@ members = [
     "common/player_identity",
     "common/bevy_rapid_qoi",
     "common/modapi",
+    "common/text_asset",
 ]

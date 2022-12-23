@@ -3,9 +3,10 @@
 ## Logging
 
 ### ex `RUST_LOG=wgpu=error,bevy_render=info,bevy_ecs=trace bloccgame`
+
 ### or `set RUST_LOG=wgpu=error,bevy_render=info,bevy_ecs=trace (CRLF) bloccgame.exe`
 
-### 
+###
 
 ## TPS (Sided.SERVER)
 
@@ -85,7 +86,7 @@ OpenGL should work as a fallback, for systems that do not support other APIs.
 
 ### Render Distance
 
-###  Lighting
+### Lighting
 
 #### Light Level
 
@@ -136,6 +137,8 @@ OpenGL should work as a fallback, for systems that do not support other APIs.
 ## Misc
 
 ### Rich Presence (https://github.com/jewlexx/bevy-discord-rpc)
+
+### Note: Currently broken
 
 ## Resources (Bevy)
 

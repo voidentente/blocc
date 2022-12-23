@@ -5,6 +5,16 @@ edition = "2021"
 authors = ["voidentente <sesyroc_0@paranoici.org>"]
 repository = "https://github.com/voidentente/blocc"
 
+[target.'cfg(windows)'.build-dependencies]
+winres = "0.1.12"
+
+[package.metadata.winres]
+FileDescription = "Blocc"
+ProductVersion = "Blocc"
+OriginalFilename = "Blocc"
+LegalCopyright = "Blocc"
+ProductName = "Blocc"
+
 [dependencies.bevy]
 version = "0.9.1"
 default-features = false
@@ -63,4 +73,7 @@ bevy_rapid_qoi = { path = "../common/bevy_rapid_qoi" }
 style = { path = "../client/style" }
 icon = { path = "../client/icon" }
 profile = { path = "../client/profile" }
-embedded_assets = { path = "../client/embedded_assets" }
+text_asset = { path = "../common/text_asset" }
+
+# This is temporary while the fix isn't pulled into the main repo
+bevy_web_asset = { git = "https://github.com/voidentente/bevy_web_asset", branch = "hotreload-fix" }
