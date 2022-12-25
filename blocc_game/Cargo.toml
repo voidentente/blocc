@@ -35,7 +35,7 @@ features = [
     "subpixel_glyph_atlas",
     "serialize",
     "bevy_dynamic_plugin",
-    #"png",
+    "png",
     #"hdr",
     #"vorbis", 
     #"ktx2", # preferred format for GPU textures

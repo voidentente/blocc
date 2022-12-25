@@ -48,7 +48,7 @@ fn main() {
         // Internal
         .add_plugin(egui_style::StylePlugin)
         .add_plugin(text_asset::TextAssetPlugin)
-        .add_plugin(app_icon::IconPlugin)
+        .add_plugin(app_icon::MainWindowIconPlugin)
         .add_plugin(client_state::GameStatePlugin)
         .add_plugin(player_identity::PlayerIdentityPlugin)
         .add_plugin(profile_selection::ProfileSelectionPlugin)

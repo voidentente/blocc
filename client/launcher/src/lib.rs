@@ -2,7 +2,6 @@ use bevy::prelude::*;
 use client_state::GameState;
 use player_identity::{PlayerIdentities, PlayerIdentitiesHandle, PlayerIdentitySelection};
 use profile_selection::{ProfileSelection, Profiles};
-use rapid_qoi::Qoi;
 use text_asset::TextAsset;
 
 pub struct LauncherPlugin;
@@ -73,16 +72,23 @@ fn setup(
     let menu = LauncherMenu::MainMenu;
 
     let background = {
-        let (header, rgba) = Qoi::decode_alloc(embedded_assets::LAUNCHER_BACKGROUND).unwrap();
+        let image = image::load_from_memory_with_format(
+            embedded_assets::LAUNCHER_BACKGROUND,
+            image::ImageFormat::Png,
+        )
+        .unwrap()
+        .into_rgba8();
 
-        let image = egui::ColorImage::from_rgba_unmultiplied(
-            [header.width as _, header.height as _],
-            &rgba,
-        );
+        let (width, height) = image.dimensions();
 
-        let options = egui::TextureOptions::NEAREST;
+        let image =
+            egui::ColorImage::from_rgba_unmultiplied([width as _, height as _], &image.into_raw());
 
-        ctx.load_texture("launcher_background_image", image, options)
+        ctx.load_texture(
+            "launcher_background_image",
+            image,
+            egui::TextureOptions::NEAREST,
+        )
     };
 
     let identity_textedit = String::new();

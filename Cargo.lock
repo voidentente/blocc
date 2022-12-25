@@ -176,7 +176,7 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "embedded_assets",
- "rapid-qoi",
+ "image 0.24.5",
  "winit",
 ]
 
@@ -2577,6 +2577,7 @@ dependencies = [
  "color_quant",
  "num-rational 0.4.1",
  "num-traits",
+ "png 0.17.7",
 ]
 
 [[package]]
@@ -2759,9 +2760,9 @@ dependencies = [
  "client_state",
  "egui",
  "embedded_assets",
+ "image 0.24.5",
  "player_identity",
  "profile_selection",
- "rapid-qoi",
  "text_asset",
 ]
 
@@ -3649,15 +3650,6 @@ name = "range-alloc"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "63e935c45e09cc6dcf00d2f0b2d630a58f4095320223d47fc68918722f0538b6"
-
-[[package]]
-name = "rapid-qoi"
-version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "965d4fa3abc71547be1527fa00e08c1114f972d3d2b9209563b420d301a257ac"
-dependencies = [
- "bytemuck",
-]
 
 [[package]]
 name = "raw-window-handle"
