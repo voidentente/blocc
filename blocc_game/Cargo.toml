@@ -63,6 +63,10 @@ version = "0.18.0" # https://crates.io/crates/bevy_egui
 [dependencies.bevy_framepace]
 version = "0.9.1" # https://crates.io/crates/bevy_framepace
 
+[dependencies.bevy_web_asset]
+git = "https://github.com/johanhelsing/bevy_web_asset" 
+# Fix on main not tagged yet
+
 
 # Internal
 [dependencies]
@@ -74,6 +78,3 @@ style = { path = "../client/style" }
 icon = { path = "../client/icon" }
 profile = { path = "../client/profile" }
 text_asset = { path = "../common/text_asset" }
-
-# This is temporary while the fix isn't pulled into the main repo
-bevy_web_asset = { git = "https://github.com/voidentente/bevy_web_asset", branch = "hotreload-fix" }
