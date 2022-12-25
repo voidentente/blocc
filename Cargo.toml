@@ -19,7 +19,6 @@ members = [
     "client/embedded_assets",
     "client/profile",
     "common/player_identity",
-    "common/bevy_rapid_qoi",
     "common/modapi",
     "common/text_asset",
 ]

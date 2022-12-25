@@ -73,7 +73,6 @@ git = "https://github.com/johanhelsing/bevy_web_asset"
 client_state = { path = "../client/client_state" }
 launcher = { path = "../client/launcher" }
 player_identity = { path = "../common/player_identity" }
-bevy_rapid_qoi = { path = "../common/bevy_rapid_qoi" }
 style = { path = "../client/style" }
 icon = { path = "../client/icon" }
 profile = { path = "../client/profile" }
