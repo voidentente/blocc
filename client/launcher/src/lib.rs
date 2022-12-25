@@ -102,27 +102,24 @@ fn on_news_loaded(
     mut state: ResMut<LauncherState>,
 ) {
     for ev in ev_asset.iter() {
-        match ev {
-            AssetEvent::Created { handle } => {
-                if *handle == news.0 {
-                    let news_text = assets.get(handle).unwrap();
+        if let AssetEvent::Created { handle } = ev {
+            if *handle == news.0 {
+                let news_text = assets.get(handle).unwrap();
 
-                    let mut articles = Vec::new();
+                let mut articles = Vec::new();
 
-                    for article in news_text.0.split("\n\n").collect::<Vec<&str>>() {
-                        let mut lines = Vec::new();
+                for article in news_text.0.split("\n\n").collect::<Vec<&str>>() {
+                    let mut lines = Vec::new();
 
-                        for line in article.split("\n").collect::<Vec<&str>>() {
-                            lines.push(line.to_owned());
-                        }
-
-                        articles.push(lines);
+                    for line in article.split("\n").collect::<Vec<&str>>() {
+                        lines.push(line.to_owned());
                     }
 
-                    state.news = Some(articles);
+                    articles.push(lines);
                 }
+
+                state.news = Some(articles);
             }
-            _ => {}
         }
     }
 }
