@@ -111,7 +111,7 @@ fn on_news_loaded(
                 for article in news_text.0.split("\n\n").collect::<Vec<&str>>() {
                     let mut lines = Vec::new();
 
-                    for line in article.split("\n").collect::<Vec<&str>>() {
+                    for line in article.split('\n').collect::<Vec<&str>>() {
                         lines.push(line.to_owned());
                     }
 
