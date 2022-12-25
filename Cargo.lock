@@ -171,6 +171,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2cb2f989d18dd141ab8ae82f64d1a8cdd37e0840f73a406896cf5e99502fab61"
 
 [[package]]
+name = "app_icon"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "embedded_assets",
+ "rapid-qoi",
+ "winit",
+]
+
+[[package]]
 name = "approx"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1137,17 +1147,17 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 name = "blocc_game"
 version = "0.1.0"
 dependencies = [
+ "app_icon",
  "bevy",
  "bevy_egui",
  "bevy_framepace",
  "bevy_kira_audio",
  "bevy_web_asset",
  "client_state",
- "icon",
+ "egui_style",
  "launcher",
  "player_identity",
  "profile",
- "style",
  "text_asset",
  "winres",
 ]
@@ -1853,6 +1863,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "egui_style"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "bevy_egui",
+ "egui",
+ "embedded_assets",
+]
+
+[[package]]
 name = "emath"
 version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2513,16 +2533,6 @@ name = "httparse"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d897f394bad6a705d5f4104762e116a75639e470d80901eed05a860a95cb1904"
-
-[[package]]
-name = "icon"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "embedded_assets",
- "rapid-qoi",
- "winit",
-]
 
 [[package]]
 name = "ident_case"
@@ -4150,16 +4160,6 @@ name = "strsim"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
-
-[[package]]
-name = "style"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "bevy_egui",
- "egui",
- "embedded_assets",
-]
 
 [[package]]
 name = "subtle"

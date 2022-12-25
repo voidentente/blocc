@@ -46,9 +46,9 @@ fn main() {
         })
         .add_plugin(bevy_framepace::FramepacePlugin)
         // Internal
-        .add_plugin(style::StylePlugin)
+        .add_plugin(egui_style::StylePlugin)
         .add_plugin(text_asset::TextAssetPlugin)
-        .add_plugin(icon::IconPlugin)
+        .add_plugin(app_icon::IconPlugin)
         .add_plugin(client_state::GameStatePlugin)
         .add_plugin(player_identity::PlayerIdentityPlugin)
         .add_plugin(profile::ProfilePlugin)
