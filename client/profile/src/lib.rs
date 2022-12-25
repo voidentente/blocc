@@ -11,14 +11,8 @@ impl Plugin for ProfilePlugin {
     }
 }
 
-#[derive(Resource)]
+#[derive(Resource, Default)]
 pub struct Profiles(pub Vec<String>);
-
-impl Default for Profiles {
-    fn default() -> Self {
-        Self(Vec::new())
-    }
-}
 
 impl Profiles {
     fn update(mut commands: Commands) {
