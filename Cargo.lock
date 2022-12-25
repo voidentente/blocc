@@ -2954,7 +2954,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "modapi"
+name = "mod_api"
 version = "0.1.0"
 dependencies = [
  "bevy",
