@@ -30,11 +30,5 @@ impl Profiles {
     }
 }
 
-#[derive(Resource)]
+#[derive(Resource, Default)]
 pub struct ProfileSelection(pub Option<usize>);
-
-impl Default for ProfileSelection {
-    fn default() -> Self {
-        Self(None)
-    }
-}
