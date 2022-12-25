@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use client_state::GameState;
 use player_identity::{PlayerIdentities, PlayerIdentitiesHandle, PlayerIdentitySelection};
-use profile::{ProfileSelection, Profiles};
+use profile_selection::{ProfileSelection, Profiles};
 use rapid_qoi::Qoi;
 use text_asset::TextAsset;
 

@@ -1157,7 +1157,7 @@ dependencies = [
  "egui_style",
  "launcher",
  "player_identity",
- "profile",
+ "profile_selection",
  "text_asset",
  "winres",
 ]
@@ -2760,7 +2760,7 @@ dependencies = [
  "egui",
  "embedded_assets",
  "player_identity",
- "profile",
+ "profile_selection",
  "rapid-qoi",
  "text_asset",
 ]
@@ -3545,7 +3545,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "profile"
+name = "profile_selection"
 version = "0.1.0"
 dependencies = [
  "bevy",

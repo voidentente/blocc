@@ -17,7 +17,7 @@ members = [
     "client/launcher",
     "client/egui_style",
     "client/embedded_assets",
-    "client/profile",
+    "client/profile_selection",
     "common/player_identity",
     "common/modapi",
     "common/text_asset",

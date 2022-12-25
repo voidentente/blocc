@@ -75,5 +75,5 @@ launcher = { path = "../client/launcher" }
 player_identity = { path = "../common/player_identity" }
 egui_style = { path = "../client/egui_style" }
 app_icon = { path = "../client/app_icon" }
-profile = { path = "../client/profile" }
+profile_selection = { path = "../client/profile_selection" }
 text_asset = { path = "../common/text_asset" }

@@ -51,7 +51,7 @@ fn main() {
         .add_plugin(app_icon::IconPlugin)
         .add_plugin(client_state::GameStatePlugin)
         .add_plugin(player_identity::PlayerIdentityPlugin)
-        .add_plugin(profile::ProfilePlugin)
+        .add_plugin(profile_selection::ProfileSelectionPlugin)
         .add_plugin(launcher::LauncherPlugin)
         //
         .run();
