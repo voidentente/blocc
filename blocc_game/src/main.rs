@@ -40,7 +40,6 @@ fn main() {
         .add_plugin(bevy::pbr::PbrPlugin)
         .add_plugin(bevy::animation::AnimationPlugin::default())
         // Third party
-        .add_plugin(bevy_rapid_qoi::QOIPlugin)
         .add_plugin(bevy_egui::EguiPlugin)
         .insert_resource(bevy_framepace::FramepaceSettings {
             limiter: bevy_framepace::Limiter::from_framerate(60.0),
