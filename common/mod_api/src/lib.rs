@@ -1,6 +1,6 @@
 //! A neutral sided mod loader that loads all `.bloc` files in the folder
-//! specified by the resource `ProfileSelection` in three `stages`,
-//! in a dynamically specified `order` by passing `&mut app`.
+//! specified by the selection in resource `Profiles` in three `stages`,
+//! in alphabetical order of file name, by passing `&mut app`.
 
 use bevy::prelude::*;
 
@@ -9,14 +9,6 @@ pub struct ModAPIPlugin;
 impl Plugin for ModAPIPlugin {
     fn build(&self, _app: &mut App) {}
 }
-
-pub type Name = &'static str;
-
-pub type Version = (u8, u8, u8);
-
-pub type Authors = &'static [&'static str];
-
-pub type Dependencies = &'static [(Name, Version, Version)];
 
 /// Implement this trait on a struct to create a Blocc mod interface.
 /// Example:
@@ -31,33 +23,23 @@ pub trait BloccMod {
     /// The name of this mod.
     /// Example:
     /// ```
-    /// const NAME: Name = "Some Blocc Mod";
+    /// const NAME: &'static str = "Some Blocc Mod";
     /// ```
-    const NAME: Name;
+    const NAME: &'static str;
 
-    /// The version of this mod, formatted as SemVer.
+    /// The version of this mod.
     /// Example:
     /// ```
-    /// const VERSION: Version = (0, 1, 0);
+    /// const VERSION: &'static str = "V1";
     /// ```
-    const VERSION: Version;
+    const VERSION: &'static str;
 
     /// The author(s) of this mod.
     /// Example:
     /// ```
     /// const AUTHORS: Authors = &["Author 1", "Author 2"];
     /// ```
-    const AUTHORS: Authors;
-
-    /// The names of the mods and their minimum and maximum version requirement this mod depends on.
-    /// Example:
-    /// ```
-    /// const DEPENDENCIES: Dependencies = [
-    ///     ("World", (0, 1, 0), (0, 3, 4)),
-    ///     ("Some Blocc Mod", (0, 1, 0), (0, 1, 0)),
-    /// ]
-    /// ```
-    const DEPENDENCIES: Dependencies;
+    const AUTHORS: [&'static str];
 
     /// Called in the first stage of mod loading by the modloader.
     fn pre_init(app: &mut App);
