@@ -39,7 +39,7 @@ struct LauncherResources {
 #[derive(Resource)]
 struct LauncherNews(Handle<TextAsset>);
 
-fn setup_window(mut commands: Commands, mut windows: ResMut<Windows>) {
+fn setup_window(mut windows: ResMut<Windows>) {
     let window = windows.primary_mut();
 
     window.set_title("Blocc Launcher".to_string());
@@ -47,10 +47,6 @@ fn setup_window(mut commands: Commands, mut windows: ResMut<Windows>) {
     window.set_resizable(false);
     window.center_window(bevy::window::MonitorSelection::Current);
     window.set_present_mode(bevy::window::PresentMode::AutoNoVsync);
-
-    commands.insert_resource(bevy_framepace::FramepaceSettings {
-        limiter: bevy_framepace::Limiter::from_framerate(60.0),
-    });
 }
 
 fn setup_resources(

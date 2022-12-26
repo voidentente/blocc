@@ -54,6 +54,9 @@ features = [
     #"wgpu_trace",   # WGPU/rendering tracing
 ]
 
+[dependencies.iyes_loopless]
+version = "0.9.1"
+
 [dependencies.bevy_kira_audio]
 version = "0.13.0" # https://crates.io/crates/bevy_kira_audio
 
@@ -61,7 +64,7 @@ version = "0.13.0" # https://crates.io/crates/bevy_kira_audio
 version = "0.18.0" # https://crates.io/crates/bevy_egui
 
 [dependencies.bevy_framepace]
-version = "0.9.1" # https://crates.io/crates/bevy_framepace
+version = "0.9.1"
 
 [dependencies.bevy_web_asset]
 git = "https://github.com/johanhelsing/bevy_web_asset" 

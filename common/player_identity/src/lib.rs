@@ -7,8 +7,7 @@ use serde::{Deserialize, Serialize};
 
 pub const PATH: &str = "identities.ron";
 
-/// This plugin can be added to read and store a `profiles.ron` file
-/// that stores player identities and the identity selection.
+/// This plugin can be added to read and store a `profiles.ron` file that stores player identities.
 pub struct PlayerIdentityPlugin;
 
 impl Plugin for PlayerIdentityPlugin {

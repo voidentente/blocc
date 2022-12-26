@@ -1,10 +1,13 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use bevy::prelude::*;
+use iyes_loopless::prelude::*;
 
 fn main() {
     App::new()
+        .add_state("launcher")
         .insert_resource(Msaa { samples: 1 })
+        .add_fixed_timestep(std::time::Duration::from_millis(1000), "tick")
         .add_plugin(bevy::log::LogPlugin::default())
         .add_plugin(bevy::core::CorePlugin::default())
         .add_plugin(bevy::time::TimePlugin)
@@ -14,19 +17,19 @@ fn main() {
         .add_plugin(bevy::input::InputPlugin)
         .add_plugin(bevy::window::WindowPlugin {
             window: bevy::window::WindowDescriptor {
-                title: "Blocc Launcher".to_string(),
+                title: "Blocc".to_string(),
                 width: 940.,
                 height: 540.,
                 resizable: false,
                 position: bevy::window::WindowPosition::Centered,
-                present_mode: bevy::window::PresentMode::AutoNoVsync,
+                present_mode: bevy::window::PresentMode::Mailbox,
                 ..Default::default()
             },
             ..Default::default()
         })
         .add_plugin(bevy_web_asset::WebAssetPlugin {
             asset_plugin: bevy::asset::AssetPlugin {
-                asset_folder: "".to_string(),
+                asset_folder: "profiles".to_string(),
                 watch_for_changes: true,
             },
         })
@@ -39,21 +42,13 @@ fn main() {
         .add_plugin(bevy::text::TextPlugin)
         .add_plugin(bevy::pbr::PbrPlugin)
         .add_plugin(bevy::animation::AnimationPlugin::default())
-        // Third party
         .add_plugin(bevy_egui::EguiPlugin)
-        .insert_resource(bevy_framepace::FramepaceSettings {
-            limiter: bevy_framepace::Limiter::from_framerate(60.0),
-        })
         .add_plugin(bevy_framepace::FramepacePlugin)
-        // Internal
         .add_plugin(egui_style::StylePlugin)
         .add_plugin(text_asset::TextAssetPlugin)
         .add_plugin(app_icon::MainWindowIconPlugin)
         .add_plugin(player_identity::PlayerIdentityPlugin)
         .add_plugin(profile_selection::ProfileSelectionPlugin)
         .add_plugin(launcher::LauncherPlugin)
-        // Initial global state
-        .add_state("launcher")
-        //
         .run();
 }

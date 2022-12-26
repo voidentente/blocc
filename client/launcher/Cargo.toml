@@ -15,9 +15,6 @@ version = "0.18.0"
 [dependencies.egui]
 version = "0.20.1"
 
-[dependencies.bevy_framepace]
-version = "0.9.1"
-
 [dependencies.image]
 version = "0.24.5"
 default-features = false
