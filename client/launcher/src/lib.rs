@@ -1,30 +1,45 @@
 use bevy::prelude::*;
-use client_state::GameState;
-use player_identity::{PlayerIdentities, PlayerIdentitiesHandle, PlayerIdentitySelection};
-use profile_selection::{ProfileSelection, Profiles};
+use player_identity::PlayerIdentities;
+use profile_selection::Profiles;
 use text_asset::TextAsset;
 
 pub struct LauncherPlugin;
 
 impl Plugin for LauncherPlugin {
     fn build(&self, app: &mut App) {
+        app.add_state(LauncherState::MainMenu);
+
         app.add_system_set(
-            SystemSet::on_enter(GameState::Launcher)
-                .with_system(setup)
-                .with_system(window_settings),
+            SystemSet::on_enter("launcher")
+                .with_system(setup_window)
+                .with_system(setup_resources),
         );
 
         app.add_system_set(
-            SystemSet::on_update(GameState::Launcher)
-                .with_system(draw)
-                .with_system(on_news_loaded),
+            SystemSet::on_update("launcher")
+                .with_system(on_news_loaded)
+                .with_system(draw),
         );
-
-        warn!("Unlocalized Strings");
     }
 }
 
-fn window_settings(mut commands: Commands, mut windows: ResMut<Windows>) {
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+enum LauncherState {
+    MainMenu,
+    ManageIdentities,
+}
+
+#[derive(Resource)]
+struct LauncherResources {
+    background: egui::TextureHandle,
+    identity_textedit: String,
+    news: Option<Vec<Vec<String>>>,
+}
+
+#[derive(Resource)]
+struct LauncherNews(Handle<TextAsset>);
+
+fn setup_window(mut commands: Commands, mut windows: ResMut<Windows>) {
     let window = windows.primary_mut();
 
     window.set_title("Blocc Launcher".to_string());
@@ -38,38 +53,18 @@ fn window_settings(mut commands: Commands, mut windows: ResMut<Windows>) {
     });
 }
 
-enum LauncherMenu {
-    MainMenu,
-    ManageIdentities,
-}
-
-#[derive(Resource)]
-struct LauncherState {
-    menu: LauncherMenu,
-    background: egui::TextureHandle,
-    identity_textedit: String,
-    news: Option<Vec<Vec<String>>>,
-}
-
-#[derive(Resource)]
-struct LauncherNews(Handle<TextAsset>);
-
-fn setup(
+fn setup_resources(
     mut commands: Commands,
     mut ctx: ResMut<bevy_egui::EguiContext>,
     server: Res<AssetServer>,
 ) {
     // Load some News
 
-    let news = server.load::<TextAsset, _>("http://bloc.cli.rs/news/news.txt");
-
-    commands.insert_resource(LauncherNews(news));
+    commands.insert_resource(LauncherNews(
+        server.load::<TextAsset, _>("http://bloc.cli.rs/news/news.txt"),
+    ));
 
     // Load Launcher State
-
-    let ctx = ctx.ctx_mut();
-
-    let menu = LauncherMenu::MainMenu;
 
     let background = {
         let image = image::load_from_memory_with_format(
@@ -84,7 +79,7 @@ fn setup(
         let image =
             egui::ColorImage::from_rgba_unmultiplied([width as _, height as _], &image.into_raw());
 
-        ctx.load_texture(
+        ctx.ctx_mut().load_texture(
             "launcher_background_image",
             image,
             egui::TextureOptions::NEAREST,
@@ -93,8 +88,7 @@ fn setup(
 
     let identity_textedit = String::new();
 
-    commands.insert_resource(LauncherState {
-        menu,
+    commands.insert_resource(LauncherResources {
         background,
         identity_textedit,
         news: None,
@@ -102,10 +96,10 @@ fn setup(
 }
 
 fn on_news_loaded(
+    mut launcher_resources: ResMut<LauncherResources>,
     mut ev_asset: EventReader<AssetEvent<TextAsset>>,
     assets: Res<Assets<TextAsset>>,
     news: Res<LauncherNews>,
-    mut state: ResMut<LauncherState>,
 ) {
     for ev in ev_asset.iter() {
         if let AssetEvent::Created { handle } = ev {
@@ -124,7 +118,7 @@ fn on_news_loaded(
                     articles.push(lines);
                 }
 
-                state.news = Some(articles);
+                launcher_resources.news = Some(articles);
             }
         }
     }
@@ -132,27 +126,28 @@ fn on_news_loaded(
 
 fn draw(
     mut ctx: ResMut<bevy_egui::EguiContext>,
-    mut state: ResMut<LauncherState>,
-    identities_handle: Res<PlayerIdentitiesHandle>,
-    mut identities_assets: ResMut<Assets<PlayerIdentities>>,
-    mut identity_selection: ResMut<PlayerIdentitySelection>,
-    profiles: Res<Profiles>,
-    mut profile_selection: ResMut<ProfileSelection>,
+    mut global_state: ResMut<State<&'static str>>,
+    mut launcher_resources: ResMut<LauncherResources>,
+    mut launcher_state: ResMut<State<LauncherState>>,
+    mut profiles: ResMut<Profiles>,
+    mut identities: ResMut<PlayerIdentities>,
 ) {
     egui::Area::new("launcher_background_area")
         .order(egui::Order::Background)
         .show(ctx.ctx_mut(), |ui| {
-            ui.image(&state.background, egui::vec2(940., 540.));
+            ui.image(&launcher_resources.background, egui::vec2(940., 540.));
         });
 
-    egui::Area::new("launcher_titleoutline_area")
+    egui::Area::new("launcher_titleshadow_area")
         .anchor(egui::Align2::CENTER_TOP, egui::vec2(0., 8.))
         .show(ctx.ctx_mut(), |ui| {
+            ui.add_space(4.);
+
             ui.vertical_centered_justified(|ui| {
                 ui.label(
                     egui::RichText::new("blocc")
                         .heading()
-                        .size(96.)
+                        .size(92.)
                         .color(egui::Color32::BROWN),
                 );
             });
@@ -187,8 +182,8 @@ fn draw(
             });
         });
 
-    match state.menu {
-        LauncherMenu::MainMenu => {
+    match launcher_state.current() {
+        LauncherState::MainMenu => {
             egui::Area::new("launcher_news_area")
                 .anchor(egui::Align2::CENTER_TOP, egui::vec2(0., 192.))
                 .show(ctx.ctx_mut(), |ui| {
@@ -206,7 +201,7 @@ fn draw(
 
                             ui.separator();
 
-                            if let Some(news) = &state.news {
+                            if let Some(news) = &launcher_resources.news {
                                 let scroll_area = egui::ScrollArea::vertical()
                                     .auto_shrink([false; 2])
                                     .id_source("launcher_news_scrollarea")
@@ -268,8 +263,7 @@ fn draw(
                             let button = egui::Button::new("Identities").frame(false);
 
                             if ui.add(button).clicked() {
-                                profile_selection.0 = None;
-                                state.menu = LauncherMenu::ManageIdentities;
+                                let _ = launcher_state.set(LauncherState::ManageIdentities);
                             }
 
                             ui.separator();
@@ -279,17 +273,20 @@ fn draw(
                                 .id_source("launcher_identityscrollarea");
 
                             scroll_area.show(ui, |ui| {
-                                if let Some(identities) =
-                                    identities_assets.get_mut(&identities_handle.0)
-                                {
-                                    for i in 0..identities.0.len() {
-                                        let (name, _) = &identities.0[i];
-                                        let name = name.to_owned();
-                                        let selection = identity_selection.0.unwrap_or(usize::MAX);
-                                        if ui.selectable_label(selection == i, name).clicked() {
-                                            identity_selection.0 = Some(i);
-                                        }
+                                let mut to_be_selected = None;
+
+                                for i in 0..identities.idents.len() {
+                                    let (name, _) = &identities.idents[i];
+                                    let name = name.to_owned();
+
+                                    let selection = identities.selection.unwrap_or(usize::MAX);
+                                    if ui.selectable_label(selection == i, name).clicked() {
+                                        to_be_selected = Some(i);
                                     }
+                                }
+
+                                if to_be_selected.is_some() {
+                                    identities.selection = to_be_selected;
                                 }
                             });
                         },
@@ -316,11 +313,20 @@ fn draw(
                                 .id_source("launcher_profilescrollarea");
 
                             scroll_area.show(ui, |ui| {
-                                for (i, name) in profiles.0.iter().enumerate() {
-                                    let selection = profile_selection.0.unwrap_or(usize::MAX);
-                                    if ui.selectable_label(selection == i, name).clicked() {
-                                        profile_selection.0 = Some(i);
+                                let mut to_be_selected = None;
+
+                                for (i, name) in profiles.dirs.iter().enumerate() {
+                                    let selection = profiles.selection.unwrap_or(usize::MAX);
+                                    if ui
+                                        .selectable_label(selection == i, name.to_string_lossy())
+                                        .clicked()
+                                    {
+                                        to_be_selected = Some(i);
                                     }
+                                }
+
+                                if to_be_selected.is_some() {
+                                    profiles.selection = to_be_selected;
                                 }
                             });
                         },
@@ -336,94 +342,94 @@ fn draw(
                         let button = egui::Button::new(button_text).frame(false);
 
                         if ui.add(button).clicked() {
-                            info!("Unimplemented.");
+                            let _ = global_state.set("some");
                         }
                     });
                 });
         }
 
-        LauncherMenu::ManageIdentities => {
+        LauncherState::ManageIdentities => {
             egui::Area::new("launcher_manageidentities_area")
                 .anchor(egui::Align2::CENTER_TOP, egui::vec2(0., 192.))
                 .show(ctx.ctx_mut(), |ui| {
-                    if let Some(identities) = identities_assets.get_mut(&identities_handle.0) {
-                        ui.horizontal_top(|ui| {
-                            ui.allocate_ui_with_layout(
-                                egui::vec2(470., 256.),
-                                egui::Layout::top_down(egui::Align::RIGHT),
-                                |ui| {
-                                    let scroll_area = egui::ScrollArea::vertical()
-                                        .auto_shrink([false; 2])
-                                        .id_source("launcher_manageidentities_scrollarea");
+                    ui.horizontal_top(|ui| {
+                        ui.allocate_ui_with_layout(
+                            egui::vec2(470., 256.),
+                            egui::Layout::top_down(egui::Align::RIGHT),
+                            |ui| {
+                                let scroll_area = egui::ScrollArea::vertical()
+                                    .auto_shrink([false; 2])
+                                    .id_source("launcher_manageidentities_scrollarea");
 
-                                    scroll_area.show(ui, |ui| {
-                                        let mut to_be_removed = None;
+                                scroll_area.show(ui, |ui| {
+                                    let mut to_be_removed = None;
 
-                                        for i in 0..identities.0.len() {
-                                            let (name, _) = &identities.0[i];
-                                            let name = name.to_owned();
+                                    for i in 0..identities.idents.len() {
+                                        let (name, _) = &identities.idents[i];
+                                        let name = name.to_owned();
 
-                                            ui.horizontal(|ui| {
-                                                if ui.button("-").clicked() {
-                                                    to_be_removed = Some(i);
-                                                }
-                                                ui.label(name);
-                                            });
-
-                                            if identities.0.len() != i + 1 {
-                                                ui.separator();
+                                        ui.horizontal(|ui| {
+                                            if ui.button("-").clicked() {
+                                                to_be_removed = Some(i);
                                             }
-                                        }
+                                            ui.label(name);
+                                        });
 
-                                        if let Some(i) = to_be_removed {
-                                            identities.0.remove(i);
+                                        if identities.idents.len() != i + 1 {
+                                            ui.separator();
                                         }
-                                    });
-                                },
-                            );
+                                    }
 
-                            ui.allocate_ui_with_layout(
-                                egui::vec2(470., 256.),
-                                egui::Layout::top_down(egui::Align::LEFT),
-                                |ui| {
-                                    ui.horizontal(|ui| {
-                                        if ui.button("+").clicked() {
-                                            identities
-                                                .add_identity(state.identity_textedit.clone());
-                                            state.identity_textedit.clear();
-                                        }
+                                    if let Some(i) = to_be_removed {
+                                        identities.idents.remove(i);
+                                    }
+                                });
+                            },
+                        );
 
-                                        let response = ui.add(
-                                            egui::TextEdit::singleline(
-                                                &mut state.identity_textedit,
-                                            )
-                                            .hint_text("Profile Name"),
+                        ui.allocate_ui_with_layout(
+                            egui::vec2(470., 256.),
+                            egui::Layout::top_down(egui::Align::LEFT),
+                            |ui| {
+                                ui.horizontal(|ui| {
+                                    if ui.button("+").clicked() {
+                                        identities.add_identity(
+                                            launcher_resources.identity_textedit.clone(),
                                         );
+                                        launcher_resources.identity_textedit.clear();
+                                    }
 
-                                        if response.lost_focus()
-                                            && ui.input().key_pressed(egui::Key::Enter)
-                                        {
-                                            identities
-                                                .add_identity(state.identity_textedit.clone());
-                                            state.identity_textedit.clear();
-                                        }
-                                    });
+                                    let response = ui.add(
+                                        egui::TextEdit::singleline(
+                                            &mut launcher_resources.identity_textedit,
+                                        )
+                                        .hint_text("Profile Name"),
+                                    );
 
-                                    ui.separator();
+                                    if response.lost_focus()
+                                        && ui.input().key_pressed(egui::Key::Enter)
+                                    {
+                                        identities.add_identity(
+                                            launcher_resources.identity_textedit.clone(),
+                                        );
+                                        launcher_resources.identity_textedit.clear();
+                                    }
+                                });
 
-                                    ui.horizontal(|ui| {
-                                        if ui.button("Save").clicked() {
-                                            identities.write();
-                                        }
-                                        if ui.button("Return").clicked() {
-                                            state.identity_textedit.clear();
-                                            state.menu = LauncherMenu::MainMenu;
-                                        }
-                                    });
-                                },
-                            );
-                        });
-                    }
+                                ui.separator();
+
+                                ui.horizontal(|ui| {
+                                    if ui.button("Save").clicked() {
+                                        identities.write();
+                                    }
+                                    if ui.button("Return").clicked() {
+                                        launcher_resources.identity_textedit.clear();
+                                        let _ = launcher_state.set(LauncherState::MainMenu);
+                                    }
+                                });
+                            },
+                        );
+                    });
                 });
         }
     }

@@ -13,7 +13,6 @@ members = [
     "blocc_game",
     "blocc_server",
     "client/app_icon",
-    "client/client_state",
     "client/launcher",
     "client/egui_style",
     "client/embedded_assets",

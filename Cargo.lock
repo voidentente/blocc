@@ -430,12 +430,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
 
 [[package]]
-name = "base64"
-version = "0.20.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ea22880d78093b0cbe17c89f64a7d457941e65759157ec6cb31a31d652b05e5"
-
-[[package]]
 name = "bevy"
 version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -503,18 +497,6 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
-]
-
-[[package]]
-name = "bevy_common_assets"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4f6b7df078908d118a55440470962f4393ac6a4ce89b13a3cd5bff49d4a06f29"
-dependencies = [
- "anyhow",
- "bevy",
- "ron 0.7.1",
- "serde",
 ]
 
 [[package]]
@@ -940,7 +922,7 @@ dependencies = [
  "bevy_render",
  "bevy_transform",
  "bevy_utils",
- "ron 0.8.0",
+ "ron",
  "serde",
  "thiserror",
  "uuid",
@@ -1153,7 +1135,6 @@ dependencies = [
  "bevy_framepace",
  "bevy_kira_audio",
  "bevy_web_asset",
- "client_state",
  "egui_style",
  "launcher",
  "player_identity",
@@ -1309,13 +1290,6 @@ dependencies = [
  "glob",
  "libc",
  "libloading",
-]
-
-[[package]]
-name = "client_state"
-version = "0.1.0"
-dependencies = [
- "bevy",
 ]
 
 [[package]]
@@ -2757,7 +2731,6 @@ dependencies = [
  "bevy",
  "bevy_egui",
  "bevy_framepace",
- "client_state",
  "egui",
  "embedded_assets",
  "image 0.24.5",
@@ -3446,12 +3419,10 @@ checksum = "6ac9a59f73473f1b8d852421e59e64809f025994837ef743615c6d0c5b305160"
 name = "player_identity"
 version = "0.1.0"
 dependencies = [
- "base64 0.20.0",
  "bevy",
- "bevy_common_assets",
  "ed25519-dalek",
  "rand 0.7.3",
- "ron 0.8.0",
+ "ron",
  "serde",
 ]
 
@@ -3550,7 +3521,6 @@ name = "profile_selection"
 version = "0.1.0"
 dependencies = [
  "bevy",
- "client_state",
 ]
 
 [[package]]
@@ -3738,17 +3708,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89e68dd9c1d8f7bb0c664e1556b1521809bc6fa62d92bb3b813adf8611caa0eb"
 dependencies = [
  "crossbeam-utils",
-]
-
-[[package]]
-name = "ron"
-version = "0.7.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "88073939a61e5b7680558e6be56b419e208420c2adb92be54921fa6b72283f1a"
-dependencies = [
- "base64 0.13.1",
- "bitflags",
- "serde",
 ]
 
 [[package]]

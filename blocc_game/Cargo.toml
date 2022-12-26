@@ -70,7 +70,6 @@ git = "https://github.com/johanhelsing/bevy_web_asset"
 
 # Internal
 [dependencies]
-client_state = { path = "../client/client_state" }
 launcher = { path = "../client/launcher" }
 player_identity = { path = "../common/player_identity" }
 egui_style = { path = "../client/egui_style" }
