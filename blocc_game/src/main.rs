@@ -17,12 +17,14 @@ fn main() {
         .add_plugin(bevy::input::InputPlugin)
         .add_plugin(bevy::window::WindowPlugin {
             window: bevy::window::WindowDescriptor {
-                title: "Blocc".to_string(),
                 width: 940.,
                 height: 540.,
-                resizable: false,
-                position: bevy::window::WindowPosition::Centered,
-                present_mode: bevy::window::PresentMode::Mailbox,
+                resize_constraints: bevy::window::WindowResizeConstraints {
+                    min_height: 540.,
+                    min_width: 940.,
+                    ..Default::default()
+                },
+                present_mode: bevy::window::PresentMode::Fifo, // Using Fifo here means we don't need bevy_framepace
                 ..Default::default()
             },
             ..Default::default()
@@ -43,7 +45,7 @@ fn main() {
         .add_plugin(bevy::pbr::PbrPlugin)
         .add_plugin(bevy::animation::AnimationPlugin::default())
         .add_plugin(bevy_egui::EguiPlugin)
-        .add_plugin(bevy_framepace::FramepacePlugin)
+        //.add_plugin(bevy_framepace::FramepacePlugin)
         .add_plugin(egui_style::StylePlugin)
         .add_plugin(text_asset::TextAssetPlugin)
         .add_plugin(app_icon::MainWindowIconPlugin)

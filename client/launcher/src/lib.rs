@@ -43,10 +43,6 @@ fn setup_window(mut windows: ResMut<Windows>) {
     let window = windows.primary_mut();
 
     window.set_title("Blocc Launcher".to_string());
-    window.set_resolution(940., 540.);
-    window.set_resizable(false);
-    window.center_window(bevy::window::MonitorSelection::Current);
-    window.set_present_mode(bevy::window::PresentMode::AutoNoVsync);
 }
 
 fn setup_resources(
@@ -127,11 +123,19 @@ fn draw(
     mut launcher_state: ResMut<State<LauncherState>>,
     mut profiles: ResMut<Profiles>,
     mut identities: ResMut<PlayerIdentities>,
+    windows: Res<Windows>,
 ) {
+    let window = windows.primary();
+    let (win_width, win_height) = (window.width(), window.height());
+    let scale = (win_width / 940.).max(win_height / 540.);
+
     egui::Area::new("launcher_background_area")
         .order(egui::Order::Background)
         .show(ctx.ctx_mut(), |ui| {
-            ui.image(&launcher_resources.background, egui::vec2(940., 540.));
+            ui.image(
+                &launcher_resources.background,
+                egui::vec2(940. * scale, 540. * scale),
+            );
         });
 
     egui::Area::new("launcher_titleshadow_area")
@@ -183,8 +187,12 @@ fn draw(
             egui::Area::new("launcher_news_area")
                 .anchor(egui::Align2::CENTER_TOP, egui::vec2(0., 192.))
                 .show(ctx.ctx_mut(), |ui| {
+                    // Weird scaling incoming
+                    let news_width = win_width.powf(0.82);
+                    let news_height = win_height.powf(0.86);
+
                     ui.allocate_ui_with_layout(
-                        egui::vec2(300., 540.),
+                        egui::vec2(news_width, win_height),
                         egui::Layout::top_down(egui::Align::Center),
                         |ui| {
                             ui.hyperlink_to(
@@ -201,8 +209,8 @@ fn draw(
                                 let scroll_area = egui::ScrollArea::vertical()
                                     .auto_shrink([false; 2])
                                     .id_source("launcher_news_scrollarea")
-                                    .max_width(300.)
-                                    .max_height(200.);
+                                    .max_width(news_width)
+                                    .max_height(news_height);
 
                                 scroll_area.show(ui, |ui| {
                                     for (i, article) in news.iter().enumerate() {
