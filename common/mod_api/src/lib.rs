@@ -18,10 +18,6 @@ pub type Authors = &'static [&'static str];
 
 pub type Dependencies = &'static [(Name, Version, Version)];
 
-pub type LoadBefore = &'static [Name];
-
-pub type LoadAfter = &'static [Name];
-
 /// Implement this trait on a struct to create a Blocc mod interface.
 /// Example:
 /// ```
@@ -62,20 +58,6 @@ pub trait BloccMod {
     /// ]
     /// ```
     const DEPENDENCIES: Dependencies;
-
-    /// The names of the mods this mod should be loaded after.
-    /// Example:
-    /// ```
-    /// const LOAD_AFTER: LoadAfter = &["World"];
-    /// ```
-    const LOAD_AFTER: LoadAfter;
-
-    /// The names of the mods this mod should be loaded before.
-    /// Example:
-    /// ```
-    /// const LOAD_BEFORE: LoadBefore = &["Some Mod", "Other Mod"];
-    /// ```
-    const LOAD_BEFORE: LoadBefore;
 
     /// Called in the first stage of mod loading by the modloader.
     fn pre_init(app: &mut App);
