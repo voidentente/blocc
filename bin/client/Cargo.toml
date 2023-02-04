@@ -1,0 +1,37 @@
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2021"
+authors = ["voidentente <voidentente@paranoici.org>"]
+repository = "https://github.com/voidentente/blocc"
+
+[target.'cfg(windows)'.build-dependencies]
+winres = "0.1.12"
+
+[package.metadata.winres]
+FileDescription = "Blocc"
+ProductVersion = "Blocc"
+OriginalFilename = "Blocc"
+LegalCopyright = "Blocc"
+ProductName = "Blocc"
+
+[dependencies.server]
+path = "../server"
+
+[dependencies.logging]
+path = "../../lib/logging"
+
+[dependencies.bevy]
+version = "0.9.1"
+default-features = false
+features = [
+    "bevy_asset",
+    "bevy_winit",
+    "bevy_render",
+    "wayland",
+    "x11",
+    "filesystem_watcher",
+]
+
+[dependencies.bevy_framepace]
+version = "0.11.0"

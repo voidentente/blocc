@@ -1,0 +1,20 @@
+[package]
+name = "window_icon"
+version = "0.1.0"
+edition = "2021"
+authors = ["voidentente <voidentente@paranoici.org>"]
+repository = "https://github.com/voidentente/blocc"
+
+[dependencies.bevy]
+version = "0.9.1"
+default-features = false
+features = ["bevy_winit"]
+
+[dependencies.image]
+version = "0.24.5"
+default_features = false
+features = ["png"]
+
+[dependencies.winit]
+version = "0.27.5"
+default-features = false
