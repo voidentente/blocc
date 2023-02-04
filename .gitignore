@@ -1,5 +1,2 @@
 /target
-/blocc_game/env/*
-!/blocc_game/env/README.md
-/blocc_server/env/*
-!/blocc_server/env/README.md
+/.idea/workspace.xml

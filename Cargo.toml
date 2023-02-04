@@ -3,21 +3,11 @@ opt-level = 3
 
 [profile.release]
 lto = true
-codegen-units = 1
 
 [workspace]
-
 resolver = "2"
-
 members = [
-    "blocc_game",
-    "blocc_server",
-    "client/app_icon",
-    "client/launcher",
-    "client/egui_style",
-    "client/embedded_assets",
-    "client/profile_selection",
-    "common/player_identity",
-    "common/mod_api",
-    "common/text_asset",
+    "bin/*",
+    "lib/*",
+    "mod/*",
 ]

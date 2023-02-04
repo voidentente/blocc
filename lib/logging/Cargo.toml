@@ -1,0 +1,38 @@
+[package]
+name = "logging"
+version = "0.1.0"
+edition = "2021"
+authors = ["voidentente <voidentente@paranoici.org>"]
+repository = "https://github.com/voidentente/blocc"
+
+[features]
+tracy = ["dep:tracing-tracy"]
+
+[dependencies.bevy]
+version = "0.9.1"
+default-features = false
+
+[dependencies.zip]
+version = "0.6.4"
+default-features = false
+features = ["deflate"]
+
+[dependencies.enable-ansi-support]
+version = "0.2.1"
+
+[dependencies.tracing-log]
+version = "0.1.3"
+
+[dependencies.tracing-subscriber]
+version = "0.3.16"
+features = ["env-filter"]
+
+[dependencies.tracing-appender]
+version = "0.2.2"
+
+[dependencies.tracing-error]
+version = "0.2.0"
+
+[dependencies.tracing-tracy]
+version = "0.10.1"
+optional = true
