@@ -2,9 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/bin/client" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/bin/server" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/lib/window_icon" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/mod/example" vcs="Git" />
   </component>
 </project>
